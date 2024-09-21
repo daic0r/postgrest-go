@@ -54,6 +54,32 @@ func TestFilterRequestBuilder_Not(t *testing.T) {
 	}
 }
 
+func TestFilterRequestBuilder_Or(t *testing.T) {
+   client := NewClient(url.URL{Scheme: "https", Host: "example.com"})
+
+   path := "/example_table"
+   httpMethod := http.MethodGet
+
+   builder := &FilterRequestBuilder{
+      QueryRequestBuilder: QueryRequestBuilder{
+         client:     client,
+         path:       path,
+         httpMethod: httpMethod,
+         json:       nil,
+         params:     url.Values{},
+      },
+      negateNext: false,
+   }
+
+   builder = builder.Or(Eq("col1", "val1"), Eq("col2", "val2"))
+
+   want := "(col1.eq.val1,col2.eq.val2)"
+
+   if got := builder.params.Get("or"); got != want {
+      t.Errorf("expected http param or == %s, got %s", want, got)
+   }
+}
+
 func TestFilterRequestBuilder_Filter(t *testing.T) {
 	client := NewClient(url.URL{Scheme: "https", Host: "example.com"})
 

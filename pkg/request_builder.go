@@ -209,6 +209,10 @@ func (b *FilterRequestBuilder) Eq(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "eq", SanitizeParam(value))
 }
 
+func Eq(column, value string) string {
+   return fmt.Sprintf("%s.eq.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Neq adds a not-equal filter condition to the request.
 func (b *FilterRequestBuilder) Neq(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "neq", SanitizeParam(value))
@@ -332,6 +336,11 @@ func (b *FilterRequestBuilder) Ad(column string, values []string) *FilterRequest
 		sanitized[i] = SanitizeParam(value)
 	}
 	return b.Filter(column, "ad", fmt.Sprintf("{%s}", strings.Join(sanitized, ",")))
+}
+
+func (b* FilterRequestBuilder) Or(conditions ...string) *FilterRequestBuilder {
+   b.params.Add("or", fmt.Sprintf("(%s)", strings.Join(conditions, ",")))
+   return b
 }
 
 // FilterRequestBuilder represents a builder for SELECT requests.
