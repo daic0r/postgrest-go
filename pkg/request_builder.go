@@ -212,9 +212,17 @@ func (b *FilterRequestBuilder) Neq(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "neq", SanitizeParam(value))
 }
 
+func Neq(column, value string) string {
+   return fmt.Sprintf("%s.neq.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Gt adds a greater-than filter condition to the request.
 func (b *FilterRequestBuilder) Gt(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "gt", SanitizeParam(value))
+}
+
+func Gt(column, value string) string {
+   return fmt.Sprintf("%s.gt.%s", SanitizeParam(column), SanitizeParam(value))
 }
 
 // Gte adds a greater-than-or-equal filter condition to the request.
@@ -222,14 +230,26 @@ func (b *FilterRequestBuilder) Gte(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "gte", SanitizeParam(value))
 }
 
+func Gte(column, value string) string {
+   return fmt.Sprintf("%s.gte.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Lt adds a less-than filter condition to the request.
 func (b *FilterRequestBuilder) Lt(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "lt", SanitizeParam(value))
 }
 
+func Lt(column, value string) string {
+   return fmt.Sprintf("%s.lt.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Lte adds a less-than-or-equal filter condition to the request.
 func (b *FilterRequestBuilder) Lte(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "lte", SanitizeParam(value))
+}
+
+func Lte(column, value string) string {
+   return fmt.Sprintf("%s.lte.%s", SanitizeParam(column), SanitizeParam(value))
 }
 
 // Is adds an IS filter condition to the request.
@@ -246,9 +266,17 @@ func (b *FilterRequestBuilder) Like(column, value string) *FilterRequestBuilder 
 	return b.Filter(column, "like", SanitizeParam(value))
 }
 
+func Like(column, value string) string {
+   return fmt.Sprintf("%s.like.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Ilike adds a ILIKE filter condition to the request.
 func (b *FilterRequestBuilder) Ilike(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "ilike", SanitizeParam(value))
+}
+
+func Ilike(column, value string) string {
+   return fmt.Sprintf("%s.ilike.%s", SanitizeParam(column), SanitizeParam(value))
 }
 
 // Fts adds a full-text search filter condition to the request.
@@ -256,9 +284,17 @@ func (b *FilterRequestBuilder) Fts(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "fts", SanitizeParam(value))
 }
 
+func Fts(column, value string) string {
+   return fmt.Sprintf("%s.fts.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Plfts adds a phrase-level full-text search filter condition to the request.
 func (b *FilterRequestBuilder) Plfts(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "plfts", SanitizeParam(value))
+}
+
+func Plfts(column, value string) string {
+   return fmt.Sprintf("%s.plfts.%s", SanitizeParam(column), SanitizeParam(value))
 }
 
 // Phfts adds a phrase-headline-level full-text search filter condition to the request.
@@ -266,9 +302,17 @@ func (b *FilterRequestBuilder) Phfts(column, value string) *FilterRequestBuilder
 	return b.Filter(column, "phfts", SanitizeParam(value))
 }
 
+func Phfts(column, value string) string {
+   return fmt.Sprintf("%s.phfts.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Wfts adds a word-level full-text search filter condition to the request.
 func (b *FilterRequestBuilder) Wfts(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "wfts", SanitizeParam(value))
+}
+
+func Wfts(column, value string) string {
+   return fmt.Sprintf("%s.wfts.%s", SanitizeParam(column), SanitizeParam(value))
 }
 
 // In adds an IN filter condition to the request.
@@ -338,6 +382,11 @@ func (b *FilterRequestBuilder) Ad(column string, values []string) *FilterRequest
 
 func (b* FilterRequestBuilder) Or(conditions ...string) *FilterRequestBuilder {
    b.params.Add("or", fmt.Sprintf("(%s)", strings.Join(conditions, ",")))
+   return b
+}
+
+func (b* FilterRequestBuilder) And(conditions ...string) *FilterRequestBuilder {
+   b.params.Add("and", fmt.Sprintf("(%s)", strings.Join(conditions, ",")))
    return b
 }
 
