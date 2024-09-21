@@ -243,6 +243,10 @@ func (b *FilterRequestBuilder) Is(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "is", SanitizeParam(value))
 }
 
+func Is(column, value string) string {
+   return fmt.Sprintf("%s.is.%s", SanitizeParam(column), SanitizeParam(value))
+}
+
 // Like adds a LIKE filter condition to the request.
 func (b *FilterRequestBuilder) Like(column, value string) *FilterRequestBuilder {
 	return b.Filter(column, "like", SanitizeParam(value))
